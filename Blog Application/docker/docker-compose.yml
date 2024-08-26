@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+      build: ../
+      tty: true
+      command: bash -c "sh -c “/wait && /sayhello”"
+      container_name: django
+      volumes:
+        - ../:/usr/src/app/
+      ports:
+        - 8000:8000
+      networks:
+        - djangonetwork
+networks:
+      djangonetwork:
+          driver: bridge
