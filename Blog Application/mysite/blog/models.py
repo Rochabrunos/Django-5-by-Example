@@ -9,15 +9,16 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=250) # Implies an index by default
     # Defines a many-to-one relationship between Users and Posts
-    author = models.ForeignKey(
+    author = models.ForeignKey( # Implies an index by default
         settings.AUTH_USER_MODEL, # Points to auth.User by default
         on_delete=models.CASCADE,
+        null=True,
         related_name='blog_posts', # specify the name of the reverse relationship, e.g. user.blog_posts
     )
     body = models.TextField()
-    publish = models.DateTimeField(default=timezone.now)
+    publish = models.DateTimeField(default=timezone.now) # Has an index specifies in the Meta class
     # auto_now_add saves the date automatically when creating an object (tracks creation time)
     created = models.DateTimeField(auto_now_add=True)
     # auto_now will automatically update the date when saving an object (tracks last modification time)
