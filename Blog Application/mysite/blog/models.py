@@ -12,6 +12,14 @@ class Post(models.Model):
     # auto_now will automatically update the date when saving an object (tracks last modification time)
     updated = models.DateTimeField(auto_now=True)
 
+    # This class defines metadata for the model
+    class Meta:
+        # This order takes effect unless a specific order is indicated in the query
+        ordering = ['-publish'] # We can indicate descending order by using a hyphen before the field name
+        indexes = [
+            models.Index(fields=['-publish']), # The index will be generated in descending order
+        ]
+
     # Django uses this method to return a string with the human-readable representation of the object
     def __str__(self):
         return self.title
