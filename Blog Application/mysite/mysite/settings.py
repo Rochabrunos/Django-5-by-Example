@@ -25,18 +25,19 @@ SECRET_KEY = 'django-insecure-%3m4l97=l=@n%-kpm0qnb^%1ylo7hjehdw^+k8$pxth#@3zzd8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Only works with DEBUG=False
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.admin', # administration site
+    'django.contrib.auth', # authentication framework
+    'django.contrib.contenttypes', # framework for handling content types
+    'django.contrib.sessions', # session framework
+    'django.contrib.messages', # messaging framework
+    'django.contrib.staticfiles', # framework for managing static files
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Indicates to the Python module where the root URL patters are defined
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
@@ -74,11 +76,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default': { # There must be always a default database
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'blogapp',
+        'USER': 'brunos1212',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -103,13 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-us' # Defines the default language code for this Django site
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = True # Activate/deactivate timezone support
 
 
 # Static files (CSS, JavaScript, Images)
