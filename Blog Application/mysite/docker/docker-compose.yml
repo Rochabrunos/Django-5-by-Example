@@ -4,7 +4,6 @@ services:
   web:
       build: ../
       tty: true
-      command: bash -c "sh -c “/wait && /sayhello”"
       container_name: django
       volumes:
         - ../:/usr/src/app/
