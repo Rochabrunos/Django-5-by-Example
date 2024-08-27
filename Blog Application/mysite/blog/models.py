@@ -1,14 +1,21 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 # Create your models here.
 class Post(models.Model):
     class Status(models.TextChoices):
         DRAFT = 'DF', 'Draft'
         PUBLISHED = 'PB', 'Published'
-        
+
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
+    # Defines a many-to-one relationship between Users and Posts
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, # Points to auth.User by default
+        on_delete=models.CASCADE,
+        related_name='blog_posts', # specify the name of the reverse relationship, e.g. user.blog_posts
+    )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     # auto_now_add saves the date automatically when creating an object (tracks creation time)
