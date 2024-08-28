@@ -15,7 +15,11 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250) # Implies an index by default
+    slug = models.SlugField(  # Implies an index by default
+        max_length=250,
+        # Unique for date is not enforced at the database level, so no database migration is required
+        unique_for_date='publish',
+        )
     # Defines a many-to-one relationship between Users and Posts
     author = models.ForeignKey( # Implies an index by default
         settings.AUTH_USER_MODEL, # Points to auth.User by default
