@@ -1,11 +1,18 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, HttpResponse
+from django.core.paginator import Paginator
 
 from .models  import Post
 # View recieves a web request and returns a web response
 def post_list(request: HttpRequest) -> HttpResponse:
-    posts = Post.published.all()
+    post_list = Post.published.all()
     
+    # Pagination with 3 posts per page
+    paginator = Paginator(object_list=post_list, per_page=3)
+    page_number = request.GET.get(key='page', default=1)
+    # page() method returns a Page object
+    posts = paginator.page(number=page_number)
+
     # Each view renders a template, passing variables to it, and will return an HTTP response with the rendered output
     return render(
         request,
