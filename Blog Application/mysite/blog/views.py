@@ -13,9 +13,14 @@ def post_list(request: HttpRequest) -> HttpResponse:
         context={'posts': posts}, # Any variable set by the template context processors is accessible by the given template
     )
 
-def post_detail(request:HttpRequest, id:int) -> HttpResponse:
+def post_detail(request:HttpRequest, year:int, month:int, day:int, post:str) -> HttpResponse:
     # retriever the object that matches the given parameters or an HTTP404 exception
-    post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
+    post = get_object_or_404(Post, 
+                             status=Post.Status.PUBLISHED,
+                             slug=post,
+                             publish__year=year,
+                             publish__month=month,
+                             publish__day=day)
     
     return render(
         request,
