@@ -1,0 +1,21 @@
+{% comment %} Tells django to load static templates tags that are provided by the Django {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        {% comment %} Block title allows template which enherits the base.html to fill these blocks with handful information {% endcomment %}
+        <title>{% block title %}{% endblock %}</title>
+        {% comment %} {% static ... %} is used to include static files {% endcomment %}
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <div id="sidebar">
+            <h2>My blog</h2>
+            <p>This is my blog.</p>
+        </div>
+    </body>
+</html>
