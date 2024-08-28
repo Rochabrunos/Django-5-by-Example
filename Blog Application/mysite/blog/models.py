@@ -2,6 +2,12 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return (
+            # The get_queryset() return the QuerySet that will be executed
+            super().get_queryset().filter(status=Post.Status.PUBLISHED)
+        )
 # Create your models here.
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -28,6 +34,9 @@ class Post(models.Model):
         choices=Status,
         default=Status.DRAFT,
     )
+    # If you declare any managers for the model but want to keep the objects manager, you have to add it explicity
+    objects = models.Manager() # The default manager
+    published = PublishedManager() # The custom manager
 
     # This class defines metadata for the model
     class Meta:
