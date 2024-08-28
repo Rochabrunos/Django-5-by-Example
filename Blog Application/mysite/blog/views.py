@@ -15,7 +15,7 @@ def post_list(request: HttpRequest) -> HttpResponse:
 
 def post_detail(request:HttpRequest, id:int) -> HttpResponse:
     # retriever the object that matches the given parameters or an HTTP404 exception
-    post = get_object_or_404(Post, id=id, status=Post.Status.Published)
+    post = get_object_or_404(Post, id=id, status=Post.Status.PUBLISHED)
     
     return render(
         request,
