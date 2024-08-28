@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-
+from django.urls import reverse
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return (
@@ -49,3 +49,10 @@ class Post(models.Model):
     # Django uses this method to return a string with the human-readable representation of the object
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        # Builds the URL dynamically using the URL name defined in the URL patterns
+        return reverse(
+            'blog:post_detail',
+            args=[self.id]
+        )
