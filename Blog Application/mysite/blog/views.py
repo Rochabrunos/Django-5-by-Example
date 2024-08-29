@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.views.generic import ListView
 from .forms import EmailPostForm
 from .models  import Post
-
+from django.core.mail import send_mail
 
 class PostListView(ListView): #ListView allows to list any type of object
     """Alternative post list view"""
@@ -39,6 +39,8 @@ def post_share(request, post_id):
         id=post_id,
         status=Post.Status.PUBLISHED,
     )
+    # Used to display a success message when the form is successufully submitted
+    sent = False
 
     if request.method == 'POST':
         # Form was submitted
@@ -47,6 +49,21 @@ def post_share(request, post_id):
             # Form fields passed validation
             cd = form.cleaned_data
             # ... send email
+            post_url = request.build_absolute_uri(  # Build a complete URL, i.e. with Http schema and hostname
+                post.get_absolute_url(), # Retrives the absolute path of the post
+            )
+            subject = (
+                f'{ cd['name'] } <{ cd['email'] }>'
+                f'recommends you read { post.title }'
+            )
+            message = (
+                f'Read { post.title } at { post_url }\n\n'
+                f'{ cd['name'] }\'s comments: PUT COMMENTS IN HERE'
+            )
+            # From_email=None the default value will be the DEFAULT_FROM_MAIL
+            if send_mail(subject, message, from_email=None, recipient_list=[cd['to']]) == 1:
+                sent = True
+
     else:
         form = EmailPostForm()
 
@@ -56,5 +73,6 @@ def post_share(request, post_id):
         context={
             'post': post,
             'form': form,
+            'sent': sent,
         }
     )
