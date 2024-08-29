@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, HttpResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-
+from .forms import EmailPostForm
 from .models  import Post
 
 
@@ -30,4 +29,32 @@ def post_detail(request:HttpRequest, year:int, month:int, day:int, post:str) -> 
         request,
         template_name='blog/post/detail.html',
         context={'post': post},
+    )
+
+# Why not a class-based view form instead function-based one
+def post_share(request, post_id):
+    # Retrieve post by id
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        status=Post.Status.PUBLISHED,
+    )
+
+    if request.method == 'POST':
+        # Form was submitted
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            cd = form.cleaned_data
+            # ... send email
+    else:
+        form = EmailPostForm()
+
+    return render(
+        request,
+        template_name='blog/post/share.html',
+        context={
+            'post': post,
+            'form': form,
+        }
     )
