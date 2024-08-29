@@ -7,16 +7,16 @@ services:
     volumes:
       - pg_blog_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=brunos1212
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=blogapp
-      - POSTGRES_HOST=db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=${POSTGRES_HOST}
     expose:
       - "5432"
     networks:
       - djangonetwork
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U brunos1212 -d blogapp"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 2s
       timeout: 1s
       retries: 5
@@ -31,7 +31,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    env_file: "../env-file"
+    env_file: "../.env"
     networks:
       - djangonetwork
 volumes:

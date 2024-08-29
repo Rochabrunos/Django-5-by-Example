@@ -1,0 +1,13 @@
+# This file must be renamed as .env
+DJANGO_SUPERUSER_USERNAME=demo
+DJANGO_SUPERUSER_PASSWORD=PASSWORD
+DJANGO_SUPERUSER_EMAIL=demo@email.com
+
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=YOUR PASSWORD
+DEFAULT_FROM_EMAIL=My blog <your-email@gmail.com>
+
+POSTGRES_USER=pg-admin
+POSTGRES_PASSWORD=some password
+POSTGRES_DB=your-db-name
+POSTGRES_HOST=your-da-host
