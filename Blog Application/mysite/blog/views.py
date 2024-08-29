@@ -54,7 +54,7 @@ def post_share(request, post_id):
             )
             subject = (
                 f'{ cd['name'] } <{ cd['email'] }>'
-                f'recommends you read { post.title }'
+                f' recommends you read { post.title }'
             )
             message = (
                 f'Read { post.title } at { post_url }\n\n'
