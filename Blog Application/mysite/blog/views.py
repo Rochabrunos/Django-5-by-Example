@@ -27,10 +27,16 @@ def post_detail(request:HttpRequest, year:int, month:int, day:int, post:str) -> 
                              publish__month=month,
                              publish__day=day)
     
+    comments = post.comments.filter(active=True)
+    form = CommentForm()
+
     return render(
         request,
         template_name='blog/post/detail.html',
-        context={'post': post},
+        context={
+            'post': post,
+            'comments': comments,
+            'form': form,},
     )
 
 # Why not a class-based view form instead function-based one

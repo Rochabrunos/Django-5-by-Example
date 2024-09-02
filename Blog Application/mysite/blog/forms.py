@@ -14,6 +14,6 @@ class EmailPostForm(forms.Form):
 class CommentForm(forms.ModelForm):
     class Meta:
         # Django will introspect the model and build the corresponding form dinamically
-        models = Comment
+        model = Comment
         # Defines which fields are included in the form (the opposite is exclude)
         fields = ['name', 'email', 'body']
