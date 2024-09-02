@@ -53,12 +53,12 @@ def post_share(request, post_id):
                 post.get_absolute_url(), # Retrives the absolute path of the post
             )
             subject = (
-                f'{ cd['name'] } <{ cd['email'] }>'
+                f'{ cd["name"] } <{ cd["email"] }>'
                 f' recommends you read { post.title }'
             )
             message = (
                 f'Read { post.title } at { post_url }\n\n'
-                f'{ cd['name'] }\'s comments: PUT COMMENTS IN HERE'
+                f'{ cd["name"] }\'s comments: PUT COMMENTS IN HERE'
             )
             # From_email=None the default value will be the DEFAULT_FROM_MAIL
             if send_mail(subject, message, from_email=None, recipient_list=[cd['to']]) == 1:
