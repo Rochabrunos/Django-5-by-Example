@@ -33,12 +33,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Django packages must be at the top
     'django.contrib.admin', # administration site
     'django.contrib.auth', # authentication framework
     'django.contrib.contenttypes', # framework for handling content types
     'django.contrib.sessions', # session framework
     'django.contrib.messages', # messaging framework
     'django.contrib.staticfiles', # framework for managing static files
+    # Third-party packages at the middle
+    'taggit',
+    # Local application at the end
     'blog.apps.BlogConfig',
 ]
 
