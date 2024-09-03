@@ -30,8 +30,7 @@ class PostListView(ListView): #ListView allows to list any type of object
         context = super(PostListView, self).get_context_data(**kwargs)
         tag_slug = self.kwargs.get("tag_slug")
         if tag_slug is not None:
-            tag = get_object_or_404(Tag, slug=tag_slug)
-            context["tag"] = tag
+            context["tag"] = Tag.objects.filter(slug=tag_slug).first()
             return context
         return context
 
