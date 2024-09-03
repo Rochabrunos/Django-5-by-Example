@@ -4,19 +4,36 @@ from django.http import HttpRequest, HttpResponse
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 
+from taggit.models import Tag
+
 from .forms import EmailPostForm, CommentForm
 from .models  import Post
 
 class PostListView(ListView): #ListView allows to list any type of object
     """Alternative post list view"""
     # Defines a custom QuerySet, it is possible to specified model = Post
-    queryset = Post.published.all()
+    # queryset = Post.published.all()
     # We use the context variable posts for the query results (default variable is object_list)
     context_object_name = 'posts'
     # We define pagination os results returnig three objects per page
     paginate_by = 3
     # Defines custom template to render the page (default template is blog/post_list.html)
     template_name = 'blog/post/list.html'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get("tag_slug")
+        if tag_slug is not None:
+            return Post.published.filter(tags__slug=tag_slug)
+        return Post.published.all()
+    
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        tag_slug = self.kwargs.get("tag_slug")
+        if tag_slug is not None:
+            tag = get_object_or_404(Tag, slug=tag_slug)
+            context["tag"] = tag
+            return context
+        return context
 
 def post_detail(request:HttpRequest, year:int, month:int, day:int, post:str) -> HttpResponse:
     # retriever the object that matches the given parameters or an HTTP404 exception
